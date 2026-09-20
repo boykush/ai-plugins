@@ -47,6 +47,7 @@ rm -f .mcp.json .codex/config.toml apm.lock.yaml && apm install && git diff --ex
 | package | 中身 |
 | --- | --- |
 | [wiki-remote-mcp](plugins/wiki-remote-mcp) | [boykush/wiki](https://github.com/boykush/wiki) を引く remote MCP サーバー |
+| [adr-remote-mcp](plugins/adr-remote-mcp) | [boykush/adr](https://github.com/boykush/adr) の決定を引く remote MCP サーバー |
 
 ## 置く / 置かない
 
