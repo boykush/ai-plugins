@@ -1,0 +1,17 @@
+{
+  "name": "ai-plugins",
+  "owner": {
+    "name": "boykush",
+    "email": "boykush315@gmail.com"
+  },
+  "metadata": {
+    "description": "AI coding-agent plugins shared across boykush's repositories.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "wiki-mcp",
+      "source": "./plugins/wiki-mcp"
+    }
+  ]
+}

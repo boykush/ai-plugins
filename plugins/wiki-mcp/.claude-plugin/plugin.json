@@ -1,0 +1,12 @@
+{
+  "name": "wiki-mcp",
+  "version": "0.1.0",
+  "description": "Remote MCP server for boykush's Scraps wiki. Search and read the wiki from any repository without restating the server in each one.",
+  "author": {
+    "name": "boykush",
+    "email": "boykush315@gmail.com"
+  },
+  "homepage": "https://boykush.github.io/wiki/",
+  "repository": "https://github.com/boykush/ai-plugins",
+  "mcpServers": "./.mcp.json"
+}
