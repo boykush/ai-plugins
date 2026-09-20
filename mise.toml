@@ -1,0 +1,38 @@
+[tools]
+"apm" = "0.31.0"
+
+[tasks.check]
+description = "Install each package into a throwaway consumer and assert the declared URLs land in both clients"
+run = '''
+set -eu
+# 配布側に生成物は置かない（展開は呼び出し元の仕事）。代わりに使い捨ての consumer を作って、
+# 宣言した URL が Claude 向けと Codex 向けの両方に落ちることだけを見る。
+for pkg in "{{config_root}}"/plugins/*/; do
+  name=$(basename "$pkg")
+  tmp=$(mktemp -d)
+  printf 'name: check-%s\nversion: 0.0.0\ntargets:\n  - claude\n  - codex\ndependencies:\n  apm:\n    - %s\n' "$name" "$pkg" > "$tmp/apm.yml"
+  (cd "$tmp" && apm install)
+  urls=$(sed -n 's/^ *url: *//p' "$pkg/apm.yml")
+  # URL が無い package を黙って通さない
+  [ -n "$urls" ] || { echo "✘ $name: url が宣言されていない" >&2; exit 1; }
+  for url in $urls; do
+    grep -q "$url" "$tmp/.mcp.json" || { echo "✘ $name: $url が .mcp.json に無い" >&2; exit 1; }
+    grep -q "$url" "$tmp/.codex/config.toml" || { echo "✘ $name: $url が .codex/config.toml に無い" >&2; exit 1; }
+    echo "✔ $name: $url -> .mcp.json, .codex/config.toml"
+  done
+done
+'''
+
+[tasks.pack]
+description = "Build a package's Agent Plugins bundle into build/ (usage: mise run pack plugins/wiki-remote-mcp)"
+run = '''
+set -eu
+pkg="$1"
+# pack は lockfile に記録された MCP から mcp.json を作るので、deploy 込みの install が先に要る。
+# repo 側に lock を残さないよう temp で回す。
+tmp=$(mktemp -d)
+cp "$pkg"/apm.yml "$pkg"/README.md "$tmp/"
+cd "$tmp"
+apm install -t claude,codex >/dev/null
+apm pack --format agent-plugin -o "{{config_root}}/build"
+'''

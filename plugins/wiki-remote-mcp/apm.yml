@@ -1,0 +1,11 @@
+name: wiki-remote-mcp
+version: 0.1.0
+description: Remote MCP server for boykush's Scraps wiki. Search and read the wiki from any repository without restating the server in each one.
+author: boykush
+dependencies:
+  apm: []
+  mcp:
+    - name: scraps
+      registry: false
+      transport: http
+      url: https://wiki-mcp.boykush.com/mcp
