@@ -23,7 +23,7 @@ targets:
   - codex
 dependencies:
   apm:
-    - boykush/ai-plugins/plugins/wiki-remote-mcp#v0.1.0
+    - boykush/ai-plugins/plugins/wiki-remote-mcp
 ```
 
 ```bash
@@ -32,7 +32,7 @@ apm install
 
 生成されるのは Claude 向けの `.mcp.json` と Codex 向けの `.codex/config.toml`（どちらも project scope）、それに `apm.lock.yaml`。**生成物も commit する**。そうしておけば apm を持たないセッションでもそのまま効き、apm が要るのは依存を更新するときだけになる。`apm_modules/` だけ gitignore する。
 
-版は tag で固定する。`#v0.1.0` のほか `#^0.1.0` のような semver range も書ける。
+ref を書かなければ default branch を解決し、**版は lockfile が commit で固定する**。上げるのは `apm update`。tag を打つ運用にするなら `#v0.1.0` で固定、`#^0.1.0` のような semver range も書ける——range は tag に対して解決されるので、tag が無ければ使えない。
 
 呼び出し元の CI で生成物を守るなら、**消してから作り直して比べる**。
 

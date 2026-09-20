@@ -21,7 +21,7 @@
 ```yaml
 dependencies:
   apm:
-    - boykush/ai-plugins/plugins/adr-remote-mcp#v0.1.0
+    - boykush/ai-plugins/plugins/adr-remote-mcp
 ```
 
 ```bash
