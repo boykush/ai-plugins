@@ -1,6 +1,6 @@
 name: adr-remote-mcp
 version: 0.1.0
-description: Remote MCP server for boykush/adr's decision records. Read the decisions from any repository without restating the server in each one.
+description: Remote MCP server for boykush/adr's decision records, and a skill with the ADE rule DSL reference to read their rules by. Read the decisions from any repository without restating either in each one.
 author: boykush
 dependencies:
   apm: []

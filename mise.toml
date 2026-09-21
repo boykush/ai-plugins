@@ -2,11 +2,11 @@
 "apm" = "0.31.0"
 
 [tasks.check]
-description = "Install each package into a throwaway consumer and assert the declared URLs land in both clients"
+description = "Install each package into a throwaway consumer and assert the declared URLs and skills land in both clients"
 run = '''
 set -eu
 # 配布側に生成物は置かない（展開は呼び出し元の仕事）。代わりに使い捨ての consumer を作って、
-# 宣言した URL が Claude 向けと Codex 向けの両方に落ちることだけを見る。
+# 宣言した URL と skill が Claude 向けと Codex 向けの両方に落ちることだけを見る。
 for pkg in "{{config_root}}"/plugins/*/; do
   name=$(basename "$pkg")
   tmp=$(mktemp -d)
@@ -20,6 +20,14 @@ for pkg in "{{config_root}}"/plugins/*/; do
     grep -q "$url" "$tmp/.codex/config.toml" || { echo "✘ $name: $url が .codex/config.toml に無い" >&2; exit 1; }
     echo "✔ $name: $url -> .mcp.json, .codex/config.toml"
   done
+  for skill in "$pkg".apm/skills/*/; do
+    [ -d "$skill" ] || continue
+    s=$(basename "$skill")
+    for dir in .claude/skills .agents/skills; do
+      diff -r "$skill" "$tmp/$dir/$s" >/dev/null || { echo "✘ $name: skill $s が $dir に揃って落ちていない" >&2; exit 1; }
+    done
+    echo "✔ $name: skill $s -> .claude/skills, .agents/skills"
+  done
 done
 '''
 
@@ -32,6 +40,8 @@ pkg="$1"
 # repo 側に lock を残さないよう temp で回す。
 tmp=$(mktemp -d)
 cp "$pkg"/apm.yml "$pkg"/README.md "$tmp/"
+# skill は .apm/ にあり、持っていかないと bundle から抜け落ちる。
+if [ -d "$pkg/.apm" ]; then cp -R "$pkg/.apm" "$tmp/"; fi
 cd "$tmp"
 apm install -t claude,codex >/dev/null
 apm pack --format agent-plugin -o "{{config_root}}/build"

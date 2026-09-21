@@ -31,6 +31,6 @@ jobs:
           install_args: apm
 
       # 配布側に生成物を置かないので、使い捨ての consumer に install して
-      # 宣言した URL が Claude 向けと Codex 向けの両方に落ちることを見る。
+      # 宣言した URL と skill が Claude 向けと Codex 向けの両方に落ちることを見る。
       - name: Check packages deploy to both clients
         run: mise run check
