@@ -1,0 +1,13 @@
+name: ai-plugins
+version: 0.1.0
+description: Agent config for working in this repository
+targets:
+  - claude
+  - codex
+# apm install generates .mcp.json and .codex/config.toml from this file; don't edit them by hand.
+dependencies:
+  apm:
+    # The package next door rather than a pinned commit of it: what this repo
+    # hands out is what its own sessions should be reading.
+    - ./plugins/catalog-remote-mcp
+  mcp: []
