@@ -1,0 +1,11 @@
+name: catalog-remote-mcp
+version: 0.1.0
+description: Remote MCP server for the catalog of boykush's repositories and the relations that cross them. Ask which repositories a change reaches without restating the server in each one.
+author: boykush
+dependencies:
+  apm: []
+  mcp:
+    - name: catalog
+      registry: false
+      transport: http
+      url: https://backstage.boykush.com/api/mcp-actions/v1/catalog
