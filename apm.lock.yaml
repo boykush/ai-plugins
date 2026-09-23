@@ -1,0 +1,43 @@
+lockfile_version: '1'
+apm_version: 0.31.0
+dependencies:
+- repo_url: _local/catalog-remote-mcp
+  name: catalog-remote-mcp
+  version: 0.1.0
+  package_type: apm_package
+  source: local
+  local_path: ./plugins/catalog-remote-mcp
+deployments:
+- kind: uri
+  target: mcp
+  value: catalog
+  runtime: claude
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
+  value: catalog
+  runtime: codex
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+mcp_servers:
+- catalog
+mcp_configs:
+  catalog:
+    name: catalog
+    transport: http
+    registry: false
+    url: https://backstage.boykush.com/api/mcp-actions/v1/catalog
+mcp_target_servers:
+  claude:
+  - catalog
+  codex:
+  - catalog
+mcp_config_provenance:
+  catalog: catalog-remote-mcp
