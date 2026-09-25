@@ -13,8 +13,9 @@ for pkg in "{{config_root}}"/plugins/*/; do
   printf 'name: check-%s\nversion: 0.0.0\ntargets:\n  - claude\n  - codex\ndependencies:\n  apm:\n    - %s\n' "$name" "$pkg" > "$tmp/apm.yml"
   (cd "$tmp" && apm install)
   urls=$(sed -n 's/^ *url: *//p' "$pkg/apm.yml")
-  # URL が無い package を黙って通さない
-  [ -n "$urls" ] || { echo "✘ $name: url が宣言されていない" >&2; exit 1; }
+  skills=$(ls -d "$pkg".apm/skills/*/ 2>/dev/null | wc -l)
+  # 空の package を黙って通さない。MCP サーバーを配らず skill だけの package もある。
+  [ -n "$urls" ] || [ "$skills" -gt 0 ] || { echo "✘ $name: url も skill も宣言されていない" >&2; exit 1; }
   for url in $urls; do
     grep -q "$url" "$tmp/.mcp.json" || { echo "✘ $name: $url が .mcp.json に無い" >&2; exit 1; }
     grep -q "$url" "$tmp/.codex/config.toml" || { echo "✘ $name: $url が .codex/config.toml に無い" >&2; exit 1; }

@@ -1,0 +1,7 @@
+name: doc-placement
+version: 0.1.0
+description: Where a fact belongs when documenting a repository, and how to find the copies that have already been made. Deciding the home for a fact - the comment, the declaration, the README, the agent instructions - before writing it, and auditing prose against the files that already carry it.
+author: boykush
+dependencies:
+  apm: []
+  mcp: []
