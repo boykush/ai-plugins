@@ -1,6 +1,6 @@
 # adr-remote-mcp
 
-[boykush/adr](https://github.com/boykush/adr) の決定を引くための remote MCP サーバーへの参照と、決定が持つルールを読むための skill を持つ package。名前の `remote` は、手元で adi を立てる経路と区別するため。
+[boykush/adr](https://github.com/boykush/adr) の決定を引くための remote MCP サーバーへの参照と、決定が持つルールを読み、照らすための skill を持つ package。名前の `remote` は、手元で adi を立てる経路と区別するため。
 
 サーバー名は `adr`。tool は `mcp__adr__*` として見える。wiki 側が `scraps`（サーバーを提供するツールの名前）なのに対してこちらを `adr` にしたのは、package 名と hostname と揃えたかったから——ツール名で揃えるなら `adi` になる。
 
@@ -8,6 +8,7 @@
 
 - `https://adr-mcp.boykush.com/mcp` への参照
 - skill `ade-rule-dsl`。ルールは [ADE](https://github.com/phi42/ad-enforcement-tool) の DSL で書かれていて、`list_rules` は書かれたままを返す。それを読むための DSL の reference を、サーバーと同じ package で届ける
+- skill `adr-check` と `adr-review`。変更をルールに照らす手順（[次の節](#adr-check-と-adr-review)）
 
 サーバーの実体は2つの repo に分かれている。
 
@@ -26,6 +27,20 @@ go run ./tools/ruledsl vendor <ai-plugins>/plugins/adr-remote-mcp/.apm/skills/ad
 ```
 
 adr もこの package に依存していて、adr の `go test` が、配られてきた reference がその版のものかを確かめる。
+
+### adr-check と adr-review
+
+どちらも変更をルールに照らす手順で、誰が何を照らし、違反をどう扱うかが違う。
+
+| | `adr-check` | `adr-review` |
+| --- | --- | --- |
+| 照らす側 | 作業したセッション | PR をレビューする側 |
+| 照らすもの | 自分の変更 | PR（説明、差分、merge した状態のファイル） |
+| 違反があったら | 直す。破らないと作業が成り立たないならユーザーに言う | 指摘として本文に書き、違反あり／なしを判定する |
+
+どちらも単独で使える手順で、互いを前提にしない。同じ変更をローカルと PR のレビューの両方で照らしてもよい。skill が持つのは手順だけで、いつどれを使うかは MCP の instructions が言う。手順まで instructions で語ると、全セッションの handshake に載るうえ、2つの使い方を書き分けきれない。
+
+[boykush/workflows](https://github.com/boykush/workflows) の ai-review は、自分の checkout に入った `adr-review` に従う。判定をどう届けるか（review を出すコマンド）は ai-review の側が持つ。
 
 ## 使う
 
