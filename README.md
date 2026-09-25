@@ -46,11 +46,7 @@ lockfile は消さない。消すと apm は手で直された skill を「apm �
 
 ## 置いてある package
 
-| package | 中身 |
-| --- | --- |
-| [wiki-remote-mcp](plugins/wiki-remote-mcp) | [boykush/wiki](https://github.com/boykush/wiki) を引く remote MCP サーバー |
-| [adr-remote-mcp](plugins/adr-remote-mcp) | [boykush/adr](https://github.com/boykush/adr) の決定を引く remote MCP サーバーと、そのルールを読む skill `ade-rule-dsl`、変更を照らす `adr-check`、PR をレビューする `adr-review` |
-| [catalog-remote-mcp](plugins/catalog-remote-mcp) | [boykush/github-management](https://github.com/boykush/github-management) の catalog（repo をまたいで作用する関係）を引く remote MCP サーバー |
+配っている package は [`plugins/`](plugins) にある。何を配るかはそれぞれの `apm.yml` の `description` が、使い方はそれぞれの README が持つ。
 
 ## 置く / 置かない
 
@@ -71,4 +67,3 @@ lockfile は消さない。消すと apm は手で直された skill を「apm �
 ## 引っかかり所
 
 - `~/.apm` が実体の無い symlink だと apm は `Refusing symlinked lifecycle lock path` で起動を拒否する
-- この repo が private の間、呼び出し元の `apm install` は git 認証を要求する。visibility は [github-management](https://github.com/boykush/github-management) の `repositories/ai-plugins.tf` が持つ
