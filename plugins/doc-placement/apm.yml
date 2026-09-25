@@ -1,6 +1,6 @@
 name: doc-placement
 version: 0.1.0
-description: Where a fact belongs, with mechanization as the goal - put it in one machine-readable owner such as a declaration, a setting, a schema, or a catalog of entities and edges, and let prose point at it. Covers the order to decide in, the two cases not to apply it to, and how to audit prose against the owners that already carry the facts.
+description: Where a fact belongs, with mechanization as the goal - put it in one machine-readable owner such as a declaration, a setting, a schema, or a catalog of entities and edges, and let prose point at it. Covers the order to decide in, why a document written for the people using a repository is exempt, and how to audit prose against the owners that already carry the facts.
 author: boykush
 dependencies:
   apm: []
