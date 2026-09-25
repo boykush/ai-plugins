@@ -49,7 +49,7 @@ lockfile は消さない。消すと apm は手で直された skill を「apm �
 | package | 中身 |
 | --- | --- |
 | [wiki-remote-mcp](plugins/wiki-remote-mcp) | [boykush/wiki](https://github.com/boykush/wiki) を引く remote MCP サーバー |
-| [adr-remote-mcp](plugins/adr-remote-mcp) | [boykush/adr](https://github.com/boykush/adr) の決定を引く remote MCP サーバーと、そのルールを読む skill `ade-rule-dsl` |
+| [adr-remote-mcp](plugins/adr-remote-mcp) | [boykush/adr](https://github.com/boykush/adr) の決定を引く remote MCP サーバーと、そのルールを読む skill `ade-rule-dsl`、変更を照らす `adr-check`、PR をレビューする `adr-review` |
 | [catalog-remote-mcp](plugins/catalog-remote-mcp) | [boykush/github-management](https://github.com/boykush/github-management) の catalog（repo をまたいで作用する関係）を引く remote MCP サーバー |
 
 ## 置く / 置かない
