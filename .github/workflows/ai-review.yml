@@ -12,7 +12,10 @@ permissions: {}
 
 jobs:
   ai-review:
-    uses: boykush/workflows/.github/workflows/ai-review.yml@c6d2b70a0796b347840b85456f97a927ff9566d6
+    # main, not a SHA as in other repositories: boykush/workflows pins this repository
+    # by SHA in its apm.yml, and pinning it back would have Renovate bump the two in turn
+    # forever. A pull request here still can't change the review that judges it.
+    uses: boykush/workflows/.github/workflows/ai-review.yml@main # zizmor: ignore[unpinned-uses]
     permissions:
       contents: read
       pull-requests: read
