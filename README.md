@@ -51,7 +51,7 @@ lockfile は消さない。消すと apm は手で直された skill を「apm �
 ## 置く / 置かない
 
 - **置く**: 2つ以上のリポジトリで使う MCP サーバー・skill。対象は `boykush` owner のうち fork と archive を除いたもの（[github-management](https://github.com/boykush/github-management) の fan-out と同じ範囲）
-- **置かない**: マシンに紐づく設定。hooks の shell script、statusline、helix 連携のような手元の環境ありきの物は [dotfiles](https://github.com/boykush/dotfiles) に残す。いつ wiki を引くかのような方針も dotfiles の `agents/AGENTS.md`（`~/.claude/CLAUDE.md`）が持つ
+- **置かない**: マシンに紐づく設定。hooks の shell script、statusline、helix 連携のような手元の環境ありきの物は [dotfiles](https://github.com/boykush/dotfiles) に残す
 - **置かない**: 特定のプロダクトの利用者に配る物。[scraps](https://github.com/boykush/scraps) の `llm-wiki` / `mcp-server` のように、そのプロダクトの repo が自前で配る
 
 ## package を足す
