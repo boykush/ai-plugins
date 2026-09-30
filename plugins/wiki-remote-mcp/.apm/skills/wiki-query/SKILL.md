@@ -1,5 +1,5 @@
 ---
-name: wiki
+name: wiki-query
 description: ユーザーが「wiki」と言って wiki を見るよう求めたときだけ使う（「wikiにあったっけ」「wiki見て」など）。個人 wiki（boykush/wiki）を MCP の scraps で探し、見つけたものをどう扱うかを持つ。「wiki」と言われていなければ、wiki に書いてありそうな話題でも引かない。
 ---
 

@@ -7,7 +7,7 @@
 ## 配る中身
 
 - `https://wiki-mcp.boykush.com/mcp` への参照
-- skill `wiki`。いつ wiki を引くかと、引いたものの扱い（[次の節](#skill-wiki)）
+- skill `wiki-query`。いつ wiki を引くかと、引いたものの扱い（[次の節](#skill-wiki-query)）
 
 サーバーの実体は3つの repo に分かれている。
 
@@ -17,7 +17,7 @@
 
 繋がらないときは公開サイト <https://boykush.github.io/wiki/> を見る。
 
-### skill `wiki`
+### skill `wiki-query`
 
 いつ引くかは SKILL.md の `description` が持つ。description は毎セッション載り、本文は呼ばれたときだけ読まれる。サーバーと同じ package に置くので、サーバーが届く所には条件も届く。
 
