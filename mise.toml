@@ -1,5 +1,5 @@
 [tools]
-"apm" = "0.31.0"
+"apm" = "0.32.0"
 
 [tasks.check]
 description = "Install each package into a throwaway consumer and assert the declared URLs and skills land in both clients"
