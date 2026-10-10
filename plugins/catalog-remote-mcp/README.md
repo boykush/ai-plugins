@@ -2,7 +2,7 @@
 
 [boykush/github-management](https://github.com/boykush/github-management) の `catalog/`——repo をまたいで作用する関係のカタログ——を引くための remote MCP サーバーへの参照を1つ持つだけの package。名前の `remote` は他の2つに合わせたもので、手元で Backstage を立てる経路は用意していない。
 
-サーバー名は `catalog`。tool は `mcp__catalog__*` として見える（`query-catalog-entities` / `get-catalog-entity` / `get-catalog-model-description`）。読み取りだけで、entity を登録・削除する action は配信側で出していない。
+サーバー名は `catalog`。tool は `mcp__catalog__*` として見える（`catalog.query-catalog-entities` / `catalog.get-catalog-entity` / `catalog.get-catalog-model-description` / `catalog.validate-entity`。名前に plugin の `catalog.` が付く）。読み取りだけで、entity を登録・削除する action は配信側で出していない。
 
 ## 配る中身
 
