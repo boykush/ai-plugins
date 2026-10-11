@@ -6,13 +6,12 @@
 
 ## 配る中身
 
-`https://jaeger.boykush.com/api/ai/mcp/` への参照だけ。実体は [infrastructure-as-code](https://github.com/boykush/infrastructure-as-code) にある。
+`https://jaeger-mcp.boykush.com/mcp` への参照だけ。実体は [infrastructure-as-code](https://github.com/boykush/infrastructure-as-code) にある。
 
-- **動く場所と hostname** は `applications/jaeger/`。MCP は Jaeger 自身が UI と同じポートに出す（`config.yaml` の `ai.mcp`）。URL が変わるならここが先に変わる
-- **認証** は `terraform/access.tf`。Jaeger にログインは無く、前段の Cloudflare Access が唯一の鍵
+- **動く場所** は `applications/jaeger/`。MCP は Jaeger 自身が UI と同じポートに出す（`config.yaml` の `ai.mcp`）
+- **外向きの hostname と path** は `applications/agentgateway/config.yaml`。UI の hostname（`jaeger.boykush.com`）からは MCP に入れない。URL が変わるならここが先に変わる
+- **認証** は `terraform/access.tf`。Jaeger にログインは無く、前段の Cloudflare Access が token を出し、agentgateway がそれを確かめる
 - **参照** をこの package が配る
-
-path が他の package（`/mcp`）と違うのは Jaeger の endpoint だから。**末尾の `/` まで書く**。
 
 ## 使う
 

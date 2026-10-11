@@ -8,4 +8,4 @@ dependencies:
     - name: jaeger
       registry: false
       transport: http
-      url: https://jaeger.boykush.com/api/ai/mcp/
+      url: https://jaeger-mcp.boykush.com/mcp
