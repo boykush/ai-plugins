@@ -6,13 +6,13 @@
 
 ## 配る中身
 
-`https://backstage.boykush.com/api/mcp-actions/v1/catalog` への参照だけ。実体は2つの repo に分かれている。
+`https://catalog-mcp.boykush.com/mcp` への参照だけ。実体は2つの repo に分かれている。
 
 - **中身** は github-management の `catalog/`。image（`ghcr.io/boykush/github-management-catalog`）に build されるので、引けるのは **main に push 済みのもの**
-- **動く場所と hostname** は [infrastructure-as-code](https://github.com/boykush/infrastructure-as-code) の `applications/backstage/`。Backstage が catalog を読んで関係を解決し、MCP として出す。URL が変わるならここが先に変わる
+- **動く場所** は [infrastructure-as-code](https://github.com/boykush/infrastructure-as-code) の `applications/backstage/`。Backstage が catalog を読んで関係を解決し、read-only の action に絞った MCP として出す
+- **外向きの hostname と path** は infrastructure-as-code の `applications/agentgateway/config.yaml`。URL が変わるならここが先に変わる
+- **認証** は infrastructure-as-code の `terraform/access.tf`。前段の Cloudflare Access が token を出し、agentgateway がそれを確かめる。初回だけ `/mcp` から GitHub でログインする
 - **参照** をこの package が配る
-
-path が他の2つ（`/mcp`）と違うのは Backstage の endpoint だから。**`/catalog` まで書く**——`/v1` で止めると絞っていない既定のサーバーを指すことになり、そちらは Cloudflare Access の内側にある。
 
 ## 何のために引くか
 
