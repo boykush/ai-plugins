@@ -1,0 +1,22 @@
+# This repository's entities in boykush's Backstage catalog, found on main by its
+# GitHub discovery (boykush/infrastructure-as-code's applications/backstage/).
+# How an entity is written — which edges to draw, what a tag means — is set in
+# boykush/github-management's AGENTS.md and the comments atop its catalog/ files.
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ai-plugins
+  description: >-
+    repo をまたいで使う AI 向けの設定（MCP サーバーの接続先など）を apm package として配る置き場。どの API
+    の接続先を持つかは、各 API の links がここを指す。配る物は自分では使わず、使う側の repo が apm.yml
+    で依存を宣言する——catalog だけは、配る先を見るためにここでも引く。対象は fork と archive を除く owned repo
+spec:
+  type: repository
+  lifecycle: production
+  owner: user:boykush
+  system: agent-config
+  consumesApis:
+    - catalog-mcp
+  dependsOn:
+    - component:infrastructure-as-code
+    - component:workflows
