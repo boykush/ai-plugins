@@ -7,9 +7,10 @@ kind: Component
 metadata:
   name: ai-plugins
   description: >-
-    repo をまたいで使う AI 向けの設定（MCP サーバーの接続先など）を apm package として配る置き場。どの API
-    の接続先を持つかは、各 API の links がここを指す。配る物は自分では使わず、使う側の repo が apm.yml
-    で依存を宣言する——catalog だけは、配る先を見るためにここでも引く。対象は fork と archive を除く owned repo
+    repo をまたいで使う AI 向けの設定（MCP サーバーの接続先・skill）を apm package として配る置き場。実体は各
+    repo が Agent Plugins の形で持ち、ここはそれを apm の package に書き直す（どれを取り込むかは marketplace の
+    AiResource が持つ）。配る物は自分では使わず、使う側の repo が apm.yml で依存を宣言する——catalog だけは、
+    配る先を見るためにここでも引く。対象は fork と archive を除く owned repo
 spec:
   type: repository
   lifecycle: production
@@ -35,3 +36,6 @@ spec:
   system: agent-config
   plugins:
     - airesource:adr-remote-mcp
+    - airesource:wiki-remote-mcp
+    - airesource:catalog-remote-mcp
+    - airesource:jaeger-remote-mcp
