@@ -1,5 +1,7 @@
 [tools]
 "apm" = "0.31.0"
+# generate が Agent Plugins の plugin.json と mcp.json を読むため。
+"jq" = "1.8.2"
 
 [tasks.check]
 description = "Install each package into a throwaway consumer and assert the declared URLs and skills land in both clients"
@@ -14,8 +16,10 @@ for pkg in "{{config_root}}"/plugins/*/; do
   (cd "$tmp" && apm install)
   urls=$(sed -n 's/^ *url: *//p' "$pkg/apm.yml")
   skills=$(ls -d "$pkg".apm/skills/*/ 2>/dev/null | wc -l)
+  # generate が書いた package は、skill を上流の plugin から git で受け取る。
+  upstream_skills=$(sed -n 's|^ *- .*/skills/\([^/#]*\)#.*|\1|p' "$pkg/apm.yml")
   # 空の package を黙って通さない。MCP サーバーを配らず skill だけの package もある。
-  [ -n "$urls" ] || [ "$skills" -gt 0 ] || { echo "✘ $name: url も skill も宣言されていない" >&2; exit 1; }
+  [ -n "$urls" ] || [ "$skills" -gt 0 ] || [ -n "$upstream_skills" ] || { echo "✘ $name: url も skill も宣言されていない" >&2; exit 1; }
   for url in $urls; do
     grep -q "$url" "$tmp/.mcp.json" || { echo "✘ $name: $url が .mcp.json に無い" >&2; exit 1; }
     grep -q "$url" "$tmp/.codex/config.toml" || { echo "✘ $name: $url が .codex/config.toml に無い" >&2; exit 1; }
@@ -29,7 +33,75 @@ for pkg in "{{config_root}}"/plugins/*/; do
     done
     echo "✔ $name: skill $s -> .claude/skills, .agents/skills"
   done
+  for s in $upstream_skills; do
+    for dir in .claude/skills .agents/skills; do
+      [ -f "$tmp/$dir/$s/SKILL.md" ] || { echo "✘ $name: 上流の skill $s が $dir に落ちていない" >&2; exit 1; }
+    done
+    echo "✔ $name: upstream skill $s -> .claude/skills, .agents/skills"
+  done
 done
+'''
+
+[tasks.generate]
+description = "Write plugins/<name>/apm.yml from an Agent Plugin in another repository"
+usage = '''
+arg "[spec]" help="owner/repo/path/to/plugin to take in; every one already taken in when left out"
+arg "[sha]" help="the commit to take it at; main's HEAD when left out"
+'''
+run = '''
+set -eu
+# 引数があればその plugin を main の HEAD で取り込み、無ければ取り込み済みの全部を、
+# 各 apm.yml の upstream 行が固定する commit で書き直す。Renovate はその SHA を上げるだけなので、
+# CI がここを回して差分を見れば、上流で変わった中身の取り込み漏れが分かる。
+generate() {
+  spec=$1 sha=$2
+  repo=$(printf '%s' "$spec" | cut -d/ -f1-2)
+  path=$(printf '%s' "$spec" | cut -d/ -f3-)
+  src=$(mktemp -d)
+  git -C "$src" init -q
+  git -C "$src" fetch -q --depth 1 "https://github.com/$repo" "$sha"
+  git -C "$src" checkout -q FETCH_HEAD
+  plugin="$src/$path"
+  name=$(jq -r .name "$plugin/plugin.json")
+  out="{{config_root}}/plugins/$name/apm.yml"
+  mkdir -p "$(dirname "$out")"
+  {
+    printf '# upstream: %s#%s\n' "$spec" "$sha"
+    echo '# mise run generate がこの Agent Plugin から書いた。直すのは上流の plugin で、ここは書き換えない。'
+    # JSON の文字列はそのまま YAML の二重引用の scalar として読める。
+    jq -r '"name: \(.name | tojson)", "version: \(.version | tojson)", "description: \(.description | tojson)", "author: \(.author.name | tojson)"' "$plugin/plugin.json"
+    echo 'dependencies:'
+    skills=$(ls -d "$plugin"/skills/*/ 2>/dev/null || true)
+    if [ -z "$skills" ]; then echo '  apm: []'; else echo '  apm:'; fi
+    for d in $skills; do
+      [ -f "$d/SKILL.md" ] && printf '    - %s/skills/%s#%s\n' "$spec" "$(basename "$d")" "$sha"
+    done
+    if [ ! -f "$plugin/mcp.json" ]; then echo '  mcp: []'; else
+      # apm の transport に読み替えられない宣言は、黙って落とさず止める。
+      jq -r '
+        (.mcpServers // {}) as $s
+        | if ($s | length) == 0 then "  mcp: []" else "  mcp:",
+          ($s | to_entries[] | .key as $n | .value
+            | if (keys - ["type", "url"]) != [] then error("\($n): type と url 以外の欄は扱えない") else . end
+            | ({"streamable-http": "http", "http": "http", "sse": "sse"}[.type]
+               // error("\($n): transport \(.type) は扱えない")) as $t
+            | "    - name: \($n | tojson)", "      registry: false", "      transport: \($t)", "      url: \(.url | tojson)")
+        end' "$plugin/mcp.json"
+    fi
+  } > "$out"
+  rm -rf "$src"
+  echo "✔ $name <- $spec#$sha"
+}
+if [ -n "${usage_spec:-}" ]; then
+  repo=$(printf '%s' "$usage_spec" | cut -d/ -f1-2)
+  generate "$usage_spec" "${usage_sha:-$(git ls-remote "https://github.com/$repo" refs/heads/main | cut -f1)}"
+else
+  for f in "{{config_root}}"/plugins/*/apm.yml; do
+    line=$(sed -n 's/^# upstream: //p' "$f")
+    [ -n "$line" ] || continue
+    generate "${line%#*}" "${line##*#}"
+  done
+fi
 '''
 
 [tasks.pack]

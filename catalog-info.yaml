@@ -20,3 +20,18 @@ spec:
   dependsOn:
     - component:infrastructure-as-code
     - component:workflows
+---
+apiVersion: backstage.io/v1alpha1
+kind: AiResource
+metadata:
+  name: ai-plugins
+  description: >-
+    各 repo が Agent Plugins の形で持つ plugin を、apm の package に書き直して配る marketplace。consumer は
+    plugin の repo ではなくここの package に依存する
+spec:
+  type: marketplace
+  lifecycle: production
+  owner: user:boykush
+  system: agent-config
+  plugins:
+    - airesource:adr-remote-mcp

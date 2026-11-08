@@ -1,11 +1,16 @@
-name: adr-remote-mcp
-version: 0.1.0
-description: Remote MCP server for boykush/adr's decision records, and the skills that go with it - the ADE rule DSL reference to read their rules by, how to check work against the rules, and how to review a pull request against them. Read the decisions from any repository without restating any of it in each one.
-author: boykush
+# upstream: boykush/adr/plugins/adr-remote-mcp#f2b77cef2a7389cef3c4bec589d9bdb4c742b7c4
+# mise run generate がこの Agent Plugin から書いた。直すのは上流の plugin で、ここは書き換えない。
+name: "adr-remote-mcp"
+version: "0.1.0"
+description: "Remote MCP server for boykush/adr's decision records, and the skills that go with it - the ADE rule DSL reference to read their rules by, how to check work against the rules, and how to review a pull request against them. Read the decisions from any repository without restating any of it in each one."
+author: "boykush"
 dependencies:
-  apm: []
+  apm:
+    - boykush/adr/plugins/adr-remote-mcp/skills/ade-rule-dsl#f2b77cef2a7389cef3c4bec589d9bdb4c742b7c4
+    - boykush/adr/plugins/adr-remote-mcp/skills/adr-check#f2b77cef2a7389cef3c4bec589d9bdb4c742b7c4
+    - boykush/adr/plugins/adr-remote-mcp/skills/adr-review#f2b77cef2a7389cef3c4bec589d9bdb4c742b7c4
   mcp:
-    - name: adr
+    - name: "adr"
       registry: false
       transport: http
-      url: https://adr-mcp.boykush.com/mcp
+      url: "https://adr-mcp.boykush.com/mcp"

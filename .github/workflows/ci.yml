@@ -28,7 +28,12 @@ jobs:
       - name: Setup mise
         uses: jdx/mise-action@f5be966e4a917d54244728e6a5fdcd1d93a35e6c # v5.2.6
         with:
-          install_args: apm
+          install_args: apm jq
+
+      # Renovate は upstream 行の SHA を上げるだけなので、その commit の plugin から書き直して
+      # 合っているかを見る。上流で skill や接続先が変わっていればここで止まる。
+      - name: Check generated packages match their upstream plugins
+        run: mise run generate && git diff --exit-code -- plugins
 
       # 配布側に生成物を置かないので、使い捨ての consumer に install して
       # 宣言した URL と skill が Claude 向けと Codex 向けの両方に落ちることを見る。
