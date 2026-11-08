@@ -1,4 +1,4 @@
-# upstream: boykush/wiki/plugins/wiki-remote-mcp#d6e9d59adc20b4fa7c2a42a84f28d1ec71758b55
+# upstream: boykush/wiki/plugins/wiki-remote-mcp#63332f46b855cf5dbad67fb471b5da155ac4f8d5
 # mise run generate がこの Agent Plugin から書いた。直すのは上流の plugin で、ここは書き換えない。
 name: "wiki-remote-mcp"
 version: "0.1.0"
