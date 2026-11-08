@@ -35,3 +35,4 @@ spec:
   system: agent-config
   plugins:
     - airesource:adr-remote-mcp
+    - airesource:catalog-remote-mcp
