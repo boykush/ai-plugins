@@ -46,11 +46,12 @@ lockfile は消さない。消すと apm は手で直された skill を「apm �
 
 ## 置いてある package
 
-配っている package は [`plugins/`](plugins) にある。何を配るかはそれぞれの `apm.yml` の `description` が、使い方はそれぞれの README が持つ。
+配っている package は [`plugins/`](plugins) にある。何を配るかはそれぞれの `apm.yml` の `description` が、使い方はそれぞれの README が持つ。[上流の plugin から作った package](#上流の-plugin-から作る) は README を持たず、先頭の `upstream` 行が指す plugin の README が使い方を持つ。
 
 ## 置く / 置かない
 
 - **置く**: 2つ以上のリポジトリで使う MCP サーバー・skill。対象は `boykush` owner のうち fork と archive を除いたもの（[github-management](https://github.com/boykush/github-management) の fan-out と同じ範囲）
+- **実体は置かない**: 中身と一緒に変わる repo がある物。その repo が [Agent Plugins](https://agent-plugins.org/specification) の形で持ち、ここには apm の package にした生成物だけを置く（[上流の plugin から作る](#上流の-plugin-から作る)）
 - **置かない**: マシンに紐づく設定。hooks の shell script、statusline、helix 連携のような手元の環境ありきの物は [dotfiles](https://github.com/boykush/dotfiles) に残す。いつ wiki を引くかのような方針も dotfiles の `agents/AGENTS.md`（`~/.claude/CLAUDE.md`）が持つ
 - **置かない**: 特定のプロダクトの利用者に配る物。[scraps](https://github.com/boykush/scraps) の `llm-wiki` / `mcp-server` のように、そのプロダクトの repo が自前で配る
 
@@ -59,6 +60,22 @@ lockfile は消さない。消すと apm は手で直された skill を「apm �
 1. `plugins/<name>/apm.yml` を書く。MCP サーバーなら `dependencies.mcp` に `{ name, registry: false, transport, url }`。skill なら `plugins/<name>/.apm/skills/<skill>/SKILL.md` に置く
 2. `plugins/<name>/README.md` に何を配るかと使い方を書く
 3. `mise run check` を通す。使い捨ての consumer を temp に作って `apm install` し、宣言した URL が `.mcp.json` と `.codex/config.toml` の両方に、skill が `.claude/skills/` と `.agents/skills/` の両方に落ちることを見る（CI もこれを回す）
+
+## 上流の plugin から作る
+
+中身と一緒に変わる repo が Agent Plugins の形で置いた plugin を、apm の package に書き直す。apm は Agent Plugins の package を copilot にしか展開しない（Claude と Codex を target にすると install が止まる）ので、その変換をここが持つ。上流の repo は apm を知らなくてよい。
+
+```bash
+mise run generate boykush/<repo>/plugins/<name>   # main の HEAD で取り込む
+mise run generate                                # 取り込み済みの全部を、固定した commit で書き直す
+```
+
+書かれるのは `plugins/<name>/apm.yml` だけで、変換は次の2つ。
+
+- `mcp.json` の各サーバーを `dependencies.mcp` に。transport は `streamable-http` を `http` に読み替える。`type` と `url` 以外を持つ宣言は扱えず、止まる
+- `skills/` の下の各 skill を `dependencies.apm` に、上流の repo のその skill の場所として1つずつ。plugin の root を指すと Agent Plugins の package として扱われ、何も展開されない
+
+上流の commit は、先頭の `upstream` 行と各 skill の `#<sha>` が固定する。Renovate は他の apm の依存と同じくその SHA を上げ、CI が同じ commit から書き直して差分を見る。上流で skill や接続先が変わっていればそこで止まるので、`mise run generate` を回して commit する。
 
 ## Agent Plugins bundle
 
