@@ -1,11 +1,13 @@
-name: jaeger-remote-mcp
-version: 0.1.0
-description: Remote MCP server for the traces boykush's cluster workloads send to Jaeger. Read what a workload did from any repository without restating the server in each one. Behind Cloudflare Access - the first call signs in through the client's OAuth flow.
-author: boykush
+# upstream: boykush/infrastructure-as-code/plugins/jaeger-remote-mcp#791c98f82ffe88b20a2c8f98a52850a65ccf75c9
+# mise run generate がこの Agent Plugin から書いた。直すのは上流の plugin で、ここは書き換えない。
+name: "jaeger-remote-mcp"
+version: "0.1.0"
+description: "Remote MCP server for the traces boykush's cluster workloads send to Jaeger. Read what a workload did from any repository without restating the server in each one. Behind Cloudflare Access - the first call signs in through the client's OAuth flow."
+author: "boykush"
 dependencies:
   apm: []
   mcp:
-    - name: jaeger
+    - name: "jaeger"
       registry: false
       transport: http
-      url: https://jaeger-mcp.boykush.com/mcp
+      url: "https://jaeger-mcp.boykush.com/mcp"

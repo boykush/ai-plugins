@@ -1,11 +1,13 @@
-name: catalog-remote-mcp
-version: 0.1.0
-description: Remote MCP server for the catalog of boykush's repositories and the relations that cross them. Ask which repositories a change reaches without restating the server in each one.
-author: boykush
+# upstream: boykush/backstage-app/agent-plugins/catalog-remote-mcp#a0b9938bc021c5a659b4fd1bf25f11d9a456ab06
+# mise run generate がこの Agent Plugin から書いた。直すのは上流の plugin で、ここは書き換えない。
+name: "catalog-remote-mcp"
+version: "0.1.0"
+description: "Remote MCP server for the catalog of boykush's repositories and the relations that cross them. Ask which repositories a change reaches without restating the server in each one."
+author: "boykush"
 dependencies:
   apm: []
   mcp:
-    - name: catalog
+    - name: "catalog"
       registry: false
       transport: http
-      url: https://catalog-mcp.boykush.com/mcp
+      url: "https://catalog-mcp.boykush.com/mcp"

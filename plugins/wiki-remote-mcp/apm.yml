@@ -1,11 +1,13 @@
-name: wiki-remote-mcp
-version: 0.1.0
-description: Remote MCP server for boykush's Scraps wiki. Search and read the wiki from any repository without restating the server in each one.
-author: boykush
+# upstream: boykush/wiki/plugins/wiki-remote-mcp#63332f46b855cf5dbad67fb471b5da155ac4f8d5
+# mise run generate がこの Agent Plugin から書いた。直すのは上流の plugin で、ここは書き換えない。
+name: "wiki-remote-mcp"
+version: "0.1.0"
+description: "Remote MCP server for boykush's Scraps wiki. Search and read the wiki from any repository without restating the server in each one."
+author: "boykush"
 dependencies:
   apm: []
   mcp:
-    - name: scraps
+    - name: "scraps"
       registry: false
       transport: http
-      url: https://wiki-mcp.boykush.com/mcp
+      url: "https://wiki-mcp.boykush.com/mcp"

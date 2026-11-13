@@ -57,6 +57,8 @@ lockfile は消さない。消すと apm は手で直された skill を「apm �
 
 ## package を足す
 
+中身と一緒に変わる repo があるなら、ここには書かずに[上流の plugin から作る](#上流の-plugin-から作る)。ここで書くのは、`doc-refactor` のように持ち主の repo が無いものだけ。
+
 1. `plugins/<name>/apm.yml` を書く。MCP サーバーなら `dependencies.mcp` に `{ name, registry: false, transport, url }`。skill なら `plugins/<name>/.apm/skills/<skill>/SKILL.md` に置く
 2. `plugins/<name>/README.md` に何を配るかと使い方を書く
 3. `mise run check` を通す。使い捨ての consumer を temp に作って `apm install` し、宣言した URL が `.mcp.json` と `.codex/config.toml` の両方に、skill が `.claude/skills/` と `.agents/skills/` の両方に落ちることを見る（CI もこれを回す）
