@@ -7,7 +7,63 @@ dependencies:
   package_type: apm_package
   source: local
   local_path: ./plugins/catalog-remote-mcp
+- repo_url: boykush/backstage-app
+  name: catalog-review
+  host: github.com
+  resolved_commit: 0cef3d3e13b2518a765af3ba1578384d9baf0fc1
+  resolved_ref: 0cef3d3e13b2518a765af3ba1578384d9baf0fc1
+  version: unknown
+  virtual_path: agent-plugins/catalog-remote-mcp/skills/catalog-review
+  is_virtual: true
+  depth: 2
+  resolved_by: _local/catalog-remote-mcp
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/catalog-review
+  - .agents/skills/catalog-review/SKILL.md
+  - .claude/skills/catalog-review
+  - .claude/skills/catalog-review/SKILL.md
+  deployed_file_hashes:
+    .agents/skills/catalog-review/SKILL.md: sha256:5de5c20c1ee46d8d3524de79416e1847a910be18d33e621c998b874448e9e5ea
+    .claude/skills/catalog-review/SKILL.md: sha256:5de5c20c1ee46d8d3524de79416e1847a910be18d33e621c998b874448e9e5ea
+  content_hash: sha256:fbf46853b704568e27ce082917bd46fe171ef95e9947c6ec5559679fbe54d65b
 deployments:
+- kind: project-relative
+  target: claude
+  value: .claude/skills/catalog-review
+  runtime: null
+  scope: project
+  owners:
+  - boykush/backstage-app/agent-plugins/catalog-remote-mcp/skills/catalog-review
+  active_owner: boykush/backstage-app/agent-plugins/catalog-remote-mcp/skills/catalog-review
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/catalog-review/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - boykush/backstage-app/agent-plugins/catalog-remote-mcp/skills/catalog-review
+  active_owner: boykush/backstage-app/agent-plugins/catalog-remote-mcp/skills/catalog-review
+  content_hash: sha256:5de5c20c1ee46d8d3524de79416e1847a910be18d33e621c998b874448e9e5ea
+- kind: project-relative
+  target: codex
+  value: .agents/skills/catalog-review
+  runtime: null
+  scope: project
+  owners:
+  - boykush/backstage-app/agent-plugins/catalog-remote-mcp/skills/catalog-review
+  active_owner: boykush/backstage-app/agent-plugins/catalog-remote-mcp/skills/catalog-review
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/catalog-review/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - boykush/backstage-app/agent-plugins/catalog-remote-mcp/skills/catalog-review
+  active_owner: boykush/backstage-app/agent-plugins/catalog-remote-mcp/skills/catalog-review
+  content_hash: sha256:5de5c20c1ee46d8d3524de79416e1847a910be18d33e621c998b874448e9e5ea
 - kind: uri
   target: mcp
   value: catalog
@@ -33,7 +89,7 @@ mcp_configs:
     name: catalog
     transport: http
     registry: false
-    url: https://backstage.boykush.com/api/mcp-actions/v1/catalog
+    url: https://catalog-mcp.boykush.com/mcp
 mcp_target_servers:
   claude:
   - catalog
