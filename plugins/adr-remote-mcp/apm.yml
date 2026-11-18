@@ -1,4 +1,4 @@
-# upstream: boykush/adr/plugins/adr-remote-mcp#a701581b5ce6d7a0c65fe8a28c1773d437a2db9e
+# upstream: boykush/adr/plugins/adr-remote-mcp#207a7eec4c5d6773a85a73bbf7169053938dd4cc
 # mise run generate がこの Agent Plugin から書いた。直すのは上流の plugin で、ここは書き換えない。
 name: "adr-remote-mcp"
 version: "0.1.0"
@@ -6,9 +6,9 @@ description: "Remote MCP server for boykush/adr's decision records, and the skil
 author: "boykush"
 dependencies:
   apm:
-    - boykush/adr/plugins/adr-remote-mcp/skills/ade-rule-dsl#a701581b5ce6d7a0c65fe8a28c1773d437a2db9e
-    - boykush/adr/plugins/adr-remote-mcp/skills/adr-check#a701581b5ce6d7a0c65fe8a28c1773d437a2db9e
-    - boykush/adr/plugins/adr-remote-mcp/skills/adr-review#a701581b5ce6d7a0c65fe8a28c1773d437a2db9e
+    - boykush/adr/plugins/adr-remote-mcp/skills/ade-rule-dsl#207a7eec4c5d6773a85a73bbf7169053938dd4cc
+    - boykush/adr/plugins/adr-remote-mcp/skills/adr-check#207a7eec4c5d6773a85a73bbf7169053938dd4cc
+    - boykush/adr/plugins/adr-remote-mcp/skills/adr-review#207a7eec4c5d6773a85a73bbf7169053938dd4cc
   mcp:
     - name: "adr"
       registry: false
